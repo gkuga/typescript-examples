@@ -1,20 +1,26 @@
-async function doSomething() {
+async function doSomeAsyncThingA() {
+	const data = await doSomeAsyncThingB().catch(err => {
+		console.log('--- catch in A ---')
+		console.error(err)
+		console.log('--- catch in A ---')
+		throw err
+	})
+	return data
+}
+
+async function doSomeAsyncThingB() {
 	if (new Date().getTime() % 2 === 0) {
 		throw 'fatal error: the earth has been destroyed';
 	}
-	return ['data', null]
+	return 'data'
 }
 
 (async () => {
-	const [data, err] = await doSomething().catch(err => {
+	const data = await doSomeAsyncThingA().catch(err => {
 		console.log('--- catch ---')
 		console.error(err)
 		console.log('--- catch ---')
-		return [null, err]
+		throw (err)
 	})
-	if (err) {
-		console.log(`err: ${err}`)
-		return
-	}
 	console.log(`data: ${data}`)
-})()
+})().catch(err => console.error(err))
