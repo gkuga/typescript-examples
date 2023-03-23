@@ -1,6 +1,7 @@
 import { createElement } from './vdom/createElement'
 import { render } from './vdom/render'
 import { mount } from './vdom/mount'
+import { diff } from './vdom/diff'
 
 const createVApp = (count: number) => createElement('div', {
 	attrs: {
@@ -18,15 +19,24 @@ const createVApp = (count: number) => createElement('div', {
 })
 
 let count = 0
-const vApp = createVApp(count)
+let vApp = createVApp(count)
 const $app = render(vApp)
+
 let $rootEl: Text | HTMLElement | null = document.getElementById('app')
 
-if ($rootEl) {
+const main = ($rootEl: Text | HTMLElement) => {
 	$rootEl = mount($app, $rootEl)
 	setInterval(() => {
 		count++
-		if ($rootEl)
-			$rootEl = mount(render(createVApp(count)), $rootEl)
+		const vNewApp = createVApp(count)
+		const patch = diff(vApp, vNewApp)
+		patch($rootEl)
+		vApp = vNewApp
+		//if ($rootEl)
+		//	$rootEl = mount(render(createVApp(count)), $rootEl)
 	}, 1000)
+}
+
+if ($rootEl) {
+	main($rootEl)
 }
