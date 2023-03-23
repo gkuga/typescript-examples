@@ -1,13 +1,19 @@
-import type { VNode } from './createElement'
+import type { Elem, VNode } from './createElement'
 
 export const render = (vNode: VNode) => {
-  const $el = document.createElement(vNode.tagName)
+  if (typeof vNode === 'string')
+    return document.createTextNode(vNode)
+  return renderElem(vNode)
+}
 
-  for (const [k, v] of Object.entries(vNode.attrs)) {
+export const renderElem = ({ tagName, attrs, children }: Elem) => {
+  const $el = document.createElement(tagName)
+
+  for (const [k, v] of Object.entries(attrs)) {
     $el.setAttribute(k, v)
   }
 
-  for (const child of vNode.children) {
+  for (const child of children) {
     const $child = render(child)
     $el.append($child)
   }
