@@ -17,12 +17,16 @@ const createVApp = (count: number) => createElement('div', {
 	],
 })
 
-const count = 0
+let count = 0
 const vApp = createVApp(count)
 const $app = render(vApp)
-const root = document.getElementById('app')
+let $rootEl: Text | HTMLElement | null = document.getElementById('app')
 
-if (root)
-	mount($app, root)
-
-console.log($app)
+if ($rootEl) {
+	$rootEl = mount($app, $rootEl)
+	setInterval(() => {
+		count++
+		if ($rootEl)
+			$rootEl = mount(render(createVApp(count)), $rootEl)
+	}, 1000)
+}

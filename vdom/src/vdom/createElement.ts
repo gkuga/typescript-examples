@@ -4,7 +4,7 @@ export type Elem = {
   children: Array<VNode>
 }
 
-export type VNode = string| Elem
+export type VNode = string | Elem
 
 export type CreateElement = (
   tagName: keyof HTMLElementTagNameMap,
@@ -12,7 +12,7 @@ export type CreateElement = (
     attrs?: { [keys: string]: string },
     children?: Array<VNode>,
   },
-) => VNode
+) => Elem
 
 export const createElement: CreateElement = (tagName, { attrs = {}, children = [] }) => {
   return {
