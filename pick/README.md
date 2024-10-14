@@ -1,0 +1,1 @@
+- [Pick and flatten a type signature in TypeScript](https://stackoverflow.com/questions/51435783/pick-and-flatten-a-type-signature-in-typescript)
