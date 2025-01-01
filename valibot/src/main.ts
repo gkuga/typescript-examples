@@ -11,6 +11,7 @@ const LoginSchema = v.object({
     v.nonEmpty('Please enter your password.'),
     v.minLength(8, 'Your password must have 8 characters or more.')
   ),
+  in: v.nullable(v.string()),
 });
 
 
@@ -20,5 +21,4 @@ function getLoginData(data: unknown): LoginData {
   return v.parse(LoginSchema, data);
 }
 
-console.log(getLoginData({ email: "test@example.com", password: "test-password" }))
-console.log(getLoginData({ email: "test-example.com", password: "test" })) // ValiError
+console.log(getLoginData({ email: "test@example.com", password: "test-password", in: "" }))
